@@ -173,11 +173,11 @@ function flashType() {
     <VCardText>请选择您要刷写的特定厂家硬件。如果列表中没有您的硬件，则说明该硬件目前暂不支持。</VCardText>
     <br>
     <VSelect :items="versions" v-model="store.version" density="compact" label="固件版本" variant="outlined"/>
-    <VSelect :items="vendors" v-model="store.vendor" density="compact" label="硬件品牌 (Vendor)"
+    <VSelect :items="vendors" v-model="store.vendor" density="compact" label="厂家/品牌"
              :disabled="!store.version || hasUrlParams" variant="outlined"/>
-    <VSelect :items="radios" v-model="store.radio" density="compact" label="射频频段"
+    <VSelect :items="radios" v-model="store.radio" density="compact" label="无线电频段"
              :disabled="!store.vendor || hasUrlParams" variant="outlined"/>
-    <VAutocomplete :items="targets" v-model="store.target" density="compact" label="产品名称/型号 (Target)"
+    <VAutocomplete :items="targets" v-model="store.target" density="compact" label="产品名称/型号"
              :disabled="!store.version || hasUrlParams" variant="outlined"/>
     
     <VBtn :disabled="!luaUrl" :href="luaUrl" download color="primary" block class="mt-4">
