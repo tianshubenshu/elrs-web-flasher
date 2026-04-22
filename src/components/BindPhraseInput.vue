@@ -15,17 +15,18 @@ const emit = defineEmits(['update:bindPhraseText'])
 let model = defineModel()
 
 let bindPhrase = ref(null)
-let uid = ref('Bind Phrase')
+let uid = ref('连接口令')
 
 function generateUID() {
   if (bindPhrase.value === '' || bindPhrase.value === null) {
-    uid.value = 'Bind Phrase'
+    uid.value = '连接口令' 
     model.value = null
     emit('update:bindPhraseText', null)
   } else {
     let val = Array.from(uidBytesFromText(bindPhrase.value))
     model.value = val
-    uid.value = 'UID: ' + val
+
+    uid.value = 'UID: ' + val 
     emit('update:bindPhraseText', bindPhrase.value)
   }
 }
@@ -34,7 +35,7 @@ watch(() => model.value, (newVal) => {
   if (newVal && Array.isArray(newVal) && newVal.length > 0) {
     uid.value = 'UID: ' + newVal
   } else if (!newVal) {
-    uid.value = 'Bind Phrase'
+    uid.value = '连接口令' 
   }
 }, { immediate: true })
 
@@ -45,7 +46,6 @@ watch(() => props.bindPhraseText, (newVal) => {
       generateUID()
     }
   } else {
-    // Parent cleared bind phrase (e.g. "Clear Stored Settings")
     bindPhrase.value = null
     generateUID()
   }

@@ -84,7 +84,7 @@ async function connect() {
   try {
     device = await navigator.serial.requestPort()
     device.ondisconnect = async (_p, _e) => {
-      console.log("disconnected")
+      console.log("设备已断开连接")
       await closeDevice()
     }
   } catch {
@@ -122,15 +122,15 @@ async function connect() {
       enableFlash.value = true
     } catch (e) {
       if (e instanceof MismatchError) {
-        term.writeln('Target mismatch, flashing cancelled')
+        term.writeln('目标硬件不匹配，刷写已取消')
         failed.value = true
         enableFlash.value = true
       } else if (e instanceof WrongMCU) {
-        term.writeln(e.message)
+        term.writeln('微控制器(MCU)型号错误: ' + e.message)
         failed.value = true
       } else {
         console.log(e)
-        term.writeln('Failed to connect to device, restart device and try again')
+        term.writeln('无法连接到设备，请重启设备后重试')
         failed.value = true
       }
     }
@@ -153,7 +153,8 @@ async function flash() {
   try {
     progressText.value = ''
     await flasher.flash(files.firmwareFiles, fullErase.value, (fileIndex, written, total) => {
-      progressText.value = (fileIndex + 1) + ' of ' + (files.firmwareFiles.length)
+      // 汉化进度提示
+      progressText.value = '第 ' + (fileIndex + 1) + ' 个文件 (共 ' + (files.firmwareFiles.length) + ' 个)'
       progress.value = Math.round(written / total * 100)
     })
     await flasher.close()
@@ -170,17 +171,18 @@ async function flash() {
 
 <template>
   <VContainer max-width="600px">
-    <VCardTitle>Flash Firmware File(s)</VCardTitle>
-    <VCardText>The firmware file(s) have been configured for your <b>{{ store.target?.config?.product_name }}</b> with
-      the specified options.
+    <VCardTitle>固件刷写</VCardTitle>
+    <VCardText>
+      固件已根据您的硬件 <b>{{ store.target?.config?.product_name }}</b> 及指定选项配置完成。
     </VCardText>
 
     <VStepperVertical v-model="step" :hide-actions="true" flat>
-      <VStepperVerticalItem title="Connect to serial UART" value="1" :hide-actions="true" :complete="step > 1"
+      <VStepperVerticalItem title="连接串口 (UART)" value="1" :hide-actions="true" :complete="step > 1"
                             :color="step > 1 ? 'green' : 'blue'">
-        <VBtn @click="connect" color="primary" :disabled="selectingSerial">Connect</VBtn>
+        <VBtn @click="connect" color="primary" :disabled="selectingSerial">连接设备</VBtn>
       </VStepperVerticalItem>
-      <VStepperVerticalItem title="Enter flashing mode" value="2" :hide-actions="true" :complete="step > 2"
+      
+      <VStepperVerticalItem title="进入刷写模式" value="2" :hide-actions="true" :complete="step > 2"
                             :color="step > 2 ? 'green' : (failed ? 'red' : 'blue')">
         <template v-for="line in log">
           <VLabel>{{ line }}</VLabel>
@@ -189,49 +191,51 @@ async function flash() {
         <VContainer v-if="failed || enableFlash">
           <br/>
           <VRow v-if="enableFlash && allowErase">
-            <VCheckbox v-model="fullErase" label="Full chip erase"/>
+            <VCheckbox v-model="fullErase" label="全片擦除 (Full chip erase)"/>
           </VRow>
           <VRow>
             <VCol v-if="enableFlash && !failed">
-              <VBtn @click="flash" color="primary">Flash</VBtn>
+              <VBtn @click="flash" color="primary">开始刷写</VBtn>
             </VCol>
             <VCol v-if="enableFlash && failed">
-              <VBtn @click="flash" color="amber">Flash Anyway</VBtn>
+              <VBtn @click="flash" color="amber">强制刷写</VBtn>
             </VCol>
             <VCol v-if="failed">
-              <VBtn @click="closeDevice" color="red">Try Again</VBtn>
+              <VBtn @click="closeDevice" color="red">重试</VBtn>
             </VCol>
           </VRow>
         </VContainer>
       </VStepperVerticalItem>
-      <VStepperVerticalItem title="Flashing" value="3" :hide-actions="true" :complete="flashComplete"
+
+      <VStepperVerticalItem title="正在刷写" value="3" :hide-actions="true" :complete="flashComplete"
                             :color="flashComplete ? 'green' : (failed ? 'red' : 'blue')">
         <VRow>
           <VCol class="d-flex align-center flex-column flex-grow-0 flex-shrink-0">
-            <VLabel v-if="progressText===''">Erasing flash, please wait...</VLabel>
-            <VLabel v-else>Flashing file {{ progressText }}</VLabel>
+            <VLabel v-if="progressText===''">正在擦除 Flash，请稍候...</VLabel>
+            <VLabel v-else>正在刷写: {{ progressText }}</VLabel>
             <br>
             <VProgressCircular :model-value="progress" :rotate="360" :size="100" :width="15"
                                :color="flashComplete ? 'green' : (failed ? 'red' : 'blue')">
               <template v-slot:default> {{ progress }} %</template>
             </VProgressCircular>
-            <div v-if="failed">
-              <VLabel>Flash failed</VLabel>
+            <div v-if="failed" class="mt-4">
+              <VLabel>刷写失败！</VLabel>
             </div>
-            <VBtn v-if="failed" @click="closeDevice" color="red">Try Again</VBtn>
+            <VBtn v-if="failed" @click="closeDevice" color="red" class="mt-2">重试</VBtn>
           </VCol>
           <VCol cols="1" class="flex-grow-1 flex-shrink-0"/>
         </VRow>
       </VStepperVerticalItem>
-      <VStepperVerticalItem title="Done" value="4" :hide-actions="true" :complete="flashComplete"
+
+      <VStepperVerticalItem title="完成" value="4" :hide-actions="true" :complete="flashComplete"
                             :color="flashComplete ? 'green' : (failed ? 'red' : 'blue')">
         <VContainer>
           <VRow>
             <VCol>
-              <VBtn v-if="flashComplete" @click="another" color="primary">Flash Another</VBtn>
+              <VBtn v-if="flashComplete" @click="another" color="primary">刷写另一个设备</VBtn>
             </VCol>
             <VCol>
-              <VBtn v-if="flashComplete" @click="reset" color="secondary">Back to Start</VBtn>
+              <VBtn v-if="flashComplete" @click="reset" color="secondary">返回首页</VBtn>
             </VCol>
           </VRow>
         </VContainer>
@@ -239,9 +243,8 @@ async function flash() {
     </VStepperVertical>
 
     <VSnackbar v-model="noDevice" vertical>
-      <div class="text-subtitle-1 pb-2">No Device Selected</div>
-
-      <p>A serial device must be selected to perform flashing.</p>
+      <div class="text-subtitle-1 pb-2">未选择设备</div>
+      <p>必须选择一个串口设备才能执行刷写操作。</p>
     </VSnackbar>
   </VContainer>
 </template>

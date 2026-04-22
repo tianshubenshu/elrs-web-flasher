@@ -6,13 +6,21 @@ let enabled = defineModel('enabled')
 let type = defineModel('type')
 type.value = "0"
 
+// 汉化后的模式选择列表
 let items = ref([
-  {title: "RX as Internal TX module (Full-duplex)", value: "0"},
-  {title: "RX as External TX module (Half-duplex)", value: "1"}
+  {title: "接收机作为内置高频头 (全双工 Full-duplex)", value: "0"},
+  {title: "接收机作为外置高频头 (半双工 Half-duplex)", value: "1"}
 ])
 </script>
 
 <template>
-  <VCheckbox v-model="enabled" :label="'Flash RX as TX' + (store.target.config.platform.startsWith('esp32') ? '' : ' (full-duplex internal module only)')"/>
-  <VSelect v-model="type" :items="items" v-if="store.target.config.platform.startsWith('esp32') && enabled"/>
+  <VCheckbox v-model="enabled" 
+             :label="'将接收机作为发射机刷写' + (store.target.config.platform.startsWith('esp32') ? '' : ' (仅限内置全双工模块)')"/>
+  
+  <VSelect v-model="type" 
+           :items="items" 
+           label="刷写模式"
+           v-if="store.target.config.platform.startsWith('esp32') && enabled"
+           variant="outlined"
+           density="compact"/>
 </template>

@@ -5,11 +5,11 @@ let model = defineModel()
 const props = defineProps({methods: Array})
 
 const flashMethods = [
-  {value: 'download', title: 'Local Download'},
-  {value: 'uart', title: 'Serial UART'},
-  {value: 'betaflight', title: 'Betaflight Passthrough'},
-  {value: 'etx', title: 'EdgeTX Passthrough'},
-  {value: 'passthru', title: 'Passthrough'},
+  {value: 'download', title: '下载到本地'},
+  {value: 'uart', title: '串口刷写（UART）'},
+  {value: 'betaflight', title: 'Betaflight 透传模式'},
+  {value: 'etx', title: 'EdgeTX 透传模式'},
+  {value: 'passthru', title: '透传模式'},
   {value: 'wifi', title: 'WiFi'},
   {value: 'stlink', title: 'STLink'},
 ]
@@ -20,5 +20,5 @@ function getFlashMethods() {
 </script>
 
 <template>
-  <VSelect v-model="model" label="Flashing Method" :items="getFlashMethods()"/>
+  <VSelect v-model="model" label="刷写模式" :items="getFlashMethods()"/>
 </template>

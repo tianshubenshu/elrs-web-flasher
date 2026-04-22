@@ -64,23 +64,21 @@ async function downloadFirmware() {
 
 <template>
   <VContainer max-width="600px">
-    <VCardTitle>Download Firmware File(s)</VCardTitle>
-    <VCardText>The firmware file(s) have been configured for your <b>{{ store.target?.config?.product_name }}</b> with
-      the specified options.
+    <VCardTitle>下载固件文件</VCardTitle>
+    <VCardText>
+      固件已根据您的硬件 <b>{{ store.target?.config?.product_name }}</b> 及指定选项配置完成。
       <br/>
-      To flash the firmware file to your device, put it into WiFi mode and connect to it via the browser
-      then upload the <b>{{ downloadFilename }}</b> file on the
-      <b>Update</b> tab.
+      若要刷写该固件，请将设备进入 <b>WiFi 模式</b>，在浏览器中连接到设备页面，然后在 <b>Update (更新)</b> 选项卡中上传 <b>{{ downloadFilename }}</b> 文件。
     </VCardText>
+    
     <VCardText v-if="store.target.config.platform === 'esp8285'">
-      The firmware file <b>{{ downloadFilename }}</b> should be flashed as-is, do NOT decompress or unzip the file or you <i>will</i>
-      receive an error.
+      固件文件 <b>{{ downloadFilename }}</b> 应当直接上传刷写。<b>切勿</b> 解压或打开该文件，否则刷写时 <i>肯定</i> 会报错。
     </VCardText>
+    
     <VCardText v-else-if="zipped">
-      The firmware files are contained in the <b>{{ downloadFilename }}</b> file and should be extracted before being uploaded to
-      the device for flashing.
+      固件文件包含在 <b>{{ downloadFilename }}</b> 压缩包内，在上传到设备刷写之前，您需要先 <b>解压</b> 该文件。
     </VCardText>
     <br>
-    <VBtn color="primary" @click="downloadFirmware()">Download</VBtn>
+    <VBtn color="primary" @click="downloadFirmware()">下载固件</VBtn>
   </VContainer>
 </template>

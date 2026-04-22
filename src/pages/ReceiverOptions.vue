@@ -36,7 +36,6 @@ onMounted(() => {
     }
 });
 
-// Helper function to save all settings
 function saveAllSettings() {
     const settings = getSettings() || {};
     settings.uid = store.options.uid;
@@ -93,19 +92,22 @@ function clearSettings() {
 
 <template>
   <VContainer max-width="600px">
-    <VCardTitle>Receiver Options</VCardTitle>
-    <VCardText>Set the flashing options and method for your <b>{{ store.target?.config?.product_name }}</b></VCardText>
+    <VCardTitle>接收机参数设置</VCardTitle>
+    <VCardText>
+      正在为 <b>{{ store.target?.config?.product_name }}</b> 配置刷写选项与方法
+    </VCardText>
     <br>
     <VForm autocomplete="on" method="POST">
       <BindPhraseInput v-model="store.options.uid" :bind-phrase-text="bindPhraseText" @update:bindPhraseText="bindPhraseText = $event"/>
       <RFSelect v-model:region="store.options.region" v-model:domain="store.options.domain" :radio="store.radio"/>
+      
       <WiFiSettingsInput v-model:ssid="store.options.ssid" v-model:password="store.options.password"
                          v-if="store.target?.config?.platform!=='stm32'"/>
 
       <FlashMethodSelect v-model="store.options.flashMethod" :methods="store.target?.config?.upload_methods"/>
 
       <VExpansionPanels variant="popout">
-        <VExpansionPanel title="Advanced Settings">
+        <VExpansionPanel title="高级设置">
           <VExpansionPanelText>
             <WiFiAutoOn v-model="store.options.wifiOnInternal"/>
             <RXasTX v-model:enabled="store.options.rx.rxAsTx" v-model:type="store.options.rx.rxAsTxType"/>
@@ -116,7 +118,7 @@ function clearSettings() {
       </VExpansionPanels>
       
       <VBtn color="error" variant="outlined" size="small" @click="clearSettings" class="mt-4">
-        Clear Stored Settings
+        清除已保存的设置
       </VBtn>
     </VForm>
   </VContainer>

@@ -96,36 +96,61 @@ watch(() => store.target, (v, _oldValue) => {
   }
 })
 
+// 汉化开关显示的文本
 function flashType() {
-  return flashBranch.value ? 'Branches' : 'Releases'
+  return flashBranch.value ? '测试分支 (Branches)' : '正式版 (Releases)'
 }
 </script>
 
 <template>
   <VRow justify="end">
-    <VSwitch v-model="flashBranch" :label="flashType()" color="secondary"/>
+    <VSwitch v-model="flashBranch" :label="flashType()" color="secondary" class="mr-4"/>
   </VRow>
 
   <VContainer max-width="600px">
     <template v-if="store.targetType==='txbp'">
-      <VCardTitle>Transmitter Hardware Selection</VCardTitle>
-      <VCardSubtitle>Choose the transmitter module that is having it's backpack flashed</VCardSubtitle>
+      <VCardTitle>发射机背包硬件选择</VCardTitle>
+      <VCardSubtitle>选择需要刷写背包固件的发射机高频头型号</VCardSubtitle>
     </template>
+
     <template v-if="store.targetType==='vrx'">
-      <VCardTitle>VRx Hardware Selection</VCardTitle>
-      <VCardSubtitle>Choose the video receiver type and hardware to be flashed</VCardSubtitle>
+      <VCardTitle>视频接收机 (VRX) 硬件选择</VCardTitle>
+      <VCardSubtitle>选择需要刷写的视频接收机类型及硬件型号</VCardSubtitle>
     </template>
+
     <template v-if="store.targetType==='aat'">
-      <VCardTitle>Antenna Tracker Hardware Selection</VCardTitle>
-      <VCardSubtitle>Choose the antenna tracker type and hardware to be flashed</VCardSubtitle>
+      <VCardTitle>天线追踪器 (AAT) 硬件选择</VCardTitle>
+      <VCardSubtitle>选择需要刷写的天线追踪器类型及硬件型号</VCardSubtitle>
     </template>
+
     <template v-if="store.targetType==='timer'">
-      <VCardTitle>Race Timer Hardware Selection</VCardTitle>
-      <VCardSubtitle>Choose the race timer and hardware to be flashed</VCardSubtitle>
+      <VCardTitle>赛道计时器硬件选择</VCardTitle>
+      <VCardSubtitle>选择需要刷写的赛道计时器设备型号</VCardSubtitle>
     </template>
+
     <br>
-    <VSelect :items="versions" v-model="store.version" label="Firmware Version"/>
-    <VSelect :items="vendors" v-model="store.vendor" :label="vendorLabel" :disabled="!store.version"/>
-    <VAutocomplete :items="targets" v-model="store.target" label="Hardware Target" :disabled="!store.vendor"/>
+    
+    <VSelect 
+      :items="versions" 
+      v-model="store.version" 
+      label="固件版本" 
+      variant="outlined"
+    />
+    
+    <VSelect 
+      :items="vendors" 
+      v-model="store.vendor" 
+      :label="vendorLabel || '生产厂商'" 
+      :disabled="!store.version" 
+      variant="outlined"
+    />
+    
+    <VAutocomplete 
+      :items="targets" 
+      v-model="store.target" 
+      label="设备型号 (Target)" 
+      :disabled="!store.vendor" 
+      variant="outlined"
+    />
   </VContainer>
 </template>

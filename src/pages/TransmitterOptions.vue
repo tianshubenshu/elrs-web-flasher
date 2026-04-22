@@ -2,6 +2,7 @@
 import {onMounted, watch, ref} from 'vue';
 import {store} from "../js/state.js";
 import {getSettings, saveSettings, clearSettings as clearStoredSettings} from "../js/storage.js";
+
 import BindPhraseInput from "../components/BindPhraseInput.vue";
 import RFSelect from "../components/RFSelect.vue";
 import WiFiSettingsInput from "../components/WiFiSettingsInput.vue";
@@ -89,19 +90,22 @@ function clearSettings() {
 
 <template>
   <VContainer max-width="600px">
-    <VCardTitle>Transmitter Options</VCardTitle>
-    <VCardText>Set the flashing options and method for your <b>{{ store.target?.config?.product_name }}</b></VCardText>
+    <VCardTitle>发射机参数设置</VCardTitle>
+    <VCardText>
+      正在为 <b>{{ store.target?.config?.product_name }}</b> 配置刷写选项与方法
+    </VCardText>
     <br>
     <VForm autocomplete="on" method="POST">
       <BindPhraseInput v-model="store.options.uid" :bind-phrase-text="bindPhraseText" @update:bindPhraseText="bindPhraseText = $event"/>
       <RFSelect v-model:region="store.options.region" v-model:domain="store.options.domain" :radio="store.radio"/>
+      
       <WiFiSettingsInput v-model:ssid="store.options.ssid" v-model:password="store.options.password"
                          v-if="store.target?.config?.platform!=='stm32'"/>
 
       <FlashMethodSelect v-model="store.options.flashMethod" :methods="store.target?.config?.upload_methods"/>
 
       <VExpansionPanels variant="popout">
-        <VExpansionPanel title="Advanced Settings">
+        <VExpansionPanel title="高级设置">
           <VExpansionPanelText>
             <WiFiAutoOn v-model="store.options.wifiOnInternal"/>
             <TXOptions/>
@@ -110,7 +114,7 @@ function clearSettings() {
       </VExpansionPanels>
       
       <VBtn color="error" variant="outlined" size="small" @click="clearSettings" class="mt-4">
-        Clear Stored Settings
+        清除已保存的设置
       </VBtn>
     </VForm>
   </VContainer>

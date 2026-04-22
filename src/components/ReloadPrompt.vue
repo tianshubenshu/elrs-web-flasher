@@ -16,14 +16,14 @@ function close() {
 <template>
   <VBanner v-if="offlineReady || needRefresh" class="pwa-toast" elevation="1" color="info">
     <VBannerText v-if="offlineReady">
-      App ready to work offline
+      站点已就绪，现在支持离线访问了！
     </VBannerText>
     <VBannerText v-else>
-      New content available, reload the page?
+      发现新内容，是否立即刷新页面进行更新？
     </VBannerText>
     <template #actions>
-      <VBtn v-if="needRefresh" @click="updateServiceWorker()">Reload</VBtn>
-      <VBtn @click="close()">Dismiss</VBtn>
+      <VBtn v-if="needRefresh" @click="updateServiceWorker()">立即刷新</VBtn>
+      <VBtn @click="close()">忽略</VBtn>
     </template>
   </VBanner>
 </template>

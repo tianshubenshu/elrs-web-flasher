@@ -13,7 +13,7 @@ const bindPhraseText = ref(null);
 
 watchEffect(() => {
   if (store.targetType === 'txbp') {
-    store.name = store.target?.config?.product_name + " Backpack"
+    store.name = store.target?.config?.product_name + " 背包 (Backpack)"
   } else if (store.targetType === 'vrx') {
     store.name = store.vendor_name + " " + store.target?.config?.product_name
   } else if (store.targetType === 'aat') {
@@ -71,19 +71,21 @@ function clearSettings() {
 
 <template>
   <VContainer max-width="600px">
-    <VCardTitle>Backpack Options</VCardTitle>
-    <VCardText>Set the flashing options and method for your <b>{{ store.name }}</b></VCardText>
+    <VCardTitle>背包参数设置</VCardTitle>
+    <VCardText>为您的 <b>{{ store.name }}</b> 设置刷写选项及刷写方法</VCardText>
     <br>
     <VForm autocomplete="on" method="POST">
       <BindPhraseInput v-model="store.options.uid" :bind-phrase-text="bindPhraseText" @update:bindPhraseText="bindPhraseText = $event"/>
+      
       <WiFiSettingsInput v-model:ssid="store.options.ssid" v-model:password="store.options.password"
                          v-if="store.target?.config?.platform!=='stm32'"/>
+      
       <WiFiAutoOn v-model="store.options.wifiOnInternal"/>
 
       <FlashMethodSelect v-model="store.options.flashMethod" :methods="store.target?.config?.upload_methods"/>
 
       <VBtn color="error" variant="outlined" size="small" @click="clearSettings" class="mt-4">
-        Clear Stored Settings
+        清除已保存的设置
       </VBtn>
     </VForm>
   </VContainer>

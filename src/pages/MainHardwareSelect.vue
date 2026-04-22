@@ -37,10 +37,10 @@ function updateVersions() {
   if (firmware.value) {
     hardware.value = null
     store.version = null
-    versions.value = []
+    versions.value = [] // 确保清空
     if (flashBranch.value) {
       Object.entries(firmware.value.branches).forEach(([key, value]) => {
-        versions.value.push({title: key, value: value})
+        versions.value.push({title: key, value: value}) // 修正：加上了 .value
         if (!store.version) store.version = value
       })
       Object.entries(firmware.value.tags).forEach(([key, value]) => {
@@ -71,7 +71,6 @@ watch([() => store.version, versions], () => {
 watchPostEffect(() => {
   if (store.version) {
     store.folder = `./assets/${store.firmware}`
-
     fetch(`./assets/${store.firmware}/hardware/targets.json`).then(r => r.json()).then(r => {
       hardware.value = r
       store.vendor = null
@@ -88,12 +87,12 @@ watchPostEffect(() => {
 })
 
 const radioTitles = {
-  'tx_2400': '2.4GHz Transmitter',
-  'tx_900': '900MHz Transmitter',
-  'tx_dual': 'Dual 2.4GHz/900MHz Transmitter',
-  'rx_2400': '2.4GHz Receiver',
-  'rx_900': '900MHz Receiver',
-  'rx_dual': 'Dual 2.4GHz/900MHz Receiver',
+  'tx_2400': '2.4GHz 发射机',
+  'tx_900': '900MHz 发射机',
+  'tx_dual': '双频 2.4GHz/900MHz 发射机',
+  'rx_2400': '2.4GHz 接收机',
+  'rx_900': '900MHz 接收机',
+  'rx_dual': '双频 2.4GHz/900MHz 接收机',
 }
 
 watchPostEffect(() => {
@@ -101,7 +100,7 @@ watchPostEffect(() => {
   let keepTarget = false
   if (store.vendor && hardware.value) {
     Object.keys(hardware.value[store.vendor]).forEach(k => {
-      if (k.startsWith(store.targetType)) radios.value.push({title: radioTitles[k], value: k})
+      if (k.startsWith(store.targetType)) radios.value.push({title: radioTitles[k] || k, value: k})
       if (store.target && store.target.vendor === store.vendor && store.target.radio === k) keepTarget = true
     })
     if (radios.value.length === 1) {
@@ -117,7 +116,9 @@ watchPostEffect(() => {
   let keepTarget = false
   if (store.version && hardware.value) {
     setTargetFromParams()
-    const version = versions.value.find(x => x.value === store.version).title
+    const foundVersion = versions.value.find(x => x.value === store.version)
+    const version = foundVersion ? foundVersion.title : '0.0.0'
+    
     for (const [vk, v] of Object.entries(hardware.value)) {
       if (vk === store.vendor || store.vendor === null) {
         for (const [rk, r] of Object.entries(v)) {
@@ -143,12 +144,11 @@ watchPostEffect(() => {
 watch([() => store.version, () => store.firmware], () => {
   let file = 'elrs.lua'
   versions.value.forEach(item => {
-    console.log(item)
     if (item.value === store.version && item.title < '4.0.0') {
       file = 'elrsV3.lua'
     }
   })
-  luaUrl = store.version ? `./assets/${store.firmware}/${store.version}/lua/${file}` : null
+  luaUrl.value = store.version ? `./assets/${store.firmware}/${store.version}/lua/${file}` : null
 })
 
 watch(() => store.target, (v, _oldValue) => {
@@ -159,30 +159,29 @@ watch(() => store.target, (v, _oldValue) => {
 })
 
 function flashType() {
-  return flashBranch.value ? 'Branches' : 'Releases'
+  return flashBranch.value ? '测试分支 (Branches)' : '正式版 (Releases)'
 }
 </script>
 
 <template>
   <VRow justify="end">
-    <VSwitch v-model="flashBranch" :label="flashType()" color="secondary"/>
+    <VSwitch v-model="flashBranch" :label="flashType()" color="secondary" class="mr-4"/>
   </VRow>
 
   <VContainer max-width="600px">
-    <VCardTitle>Hardware Selection</VCardTitle>
-    <VCardText>Choose the vendor specific hardware that you are flashing, if the hardware is not in the list then the
-      hardware is unsupported.
-    </VCardText>
+    <VCardTitle>硬件选择</VCardTitle>
+    <VCardText>请选择您要刷写的特定厂家硬件。如果列表中没有您的硬件，则说明该硬件目前暂不支持。</VCardText>
     <br>
-    <VSelect :items="versions" v-model="store.version" density="compact" label="Firmware Version"/>
-    <VSelect :items="vendors" v-model="store.vendor" density="compact" label="Hardware Vendor"
-             :disabled="!store.version || hasUrlParams"/>
-    <VSelect :items="radios" v-model="store.radio" density="compact" label="Radio Frequency"
-             :disabled="!store.vendor || hasUrlParams"/>
-    <VAutocomplete :items="targets" v-model="store.target" density="compact" label="Hardware Target"
-             :disabled="!store.version || hasUrlParams"/>
-    <a :href="luaUrl" download>
-      <VBtn :disabled="!luaUrl">Download ELRS Lua Script</VBtn>
-    </a>
+    <VSelect :items="versions" v-model="store.version" density="compact" label="固件版本" variant="outlined"/>
+    <VSelect :items="vendors" v-model="store.vendor" density="compact" label="硬件品牌 (Vendor)"
+             :disabled="!store.version || hasUrlParams" variant="outlined"/>
+    <VSelect :items="radios" v-model="store.radio" density="compact" label="射频类型"
+             :disabled="!store.vendor || hasUrlParams" variant="outlined"/>
+    <VAutocomplete :items="targets" v-model="store.target" density="compact" label="具体型号 (Target)"
+             :disabled="!store.version || hasUrlParams" variant="outlined"/>
+    
+    <VBtn :disabled="!luaUrl" :href="luaUrl" download color="primary" block class="mt-4">
+      下载 ELRS Lua 脚本
+    </VBtn>
   </VContainer>
 </template>

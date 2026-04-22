@@ -30,6 +30,6 @@ function hasLowFrequency() {
 </script>
 
 <template>
-  <VSelect v-model="region" label="Region" :items="regions" v-if="hasHighFrequency()"/>
-  <VSelect v-model="domain" label="Regulatory Domain" :items="domains" v-if="hasLowFrequency()"/>
+  <VSelect v-model="region" label="监管地区" :items="regions" v-if="hasHighFrequency()"/>
+  <VSelect v-model="domain" label="监管地区" :items="domains" v-if="hasLowFrequency()"/>
 </template>
