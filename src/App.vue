@@ -167,7 +167,7 @@ const friendsList = [
               </div>
             </VContainer>
           </VFadeTransition>
-<v-container max-width="1024px" class="mt-n9 pb-7">
+<v-container max-width="1280px" class="mt-n9 pb-7">
 
   <div class="containerMain pt-0 px-10 pb-4" style="padding-top: 0 !important;">
     
