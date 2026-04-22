@@ -87,9 +87,9 @@ watchPostEffect(() => {
 })
 
 const radioTitles = {
-  'tx_2400': '2.4GHz 发射机',
-  'tx_900': '900MHz 发射机',
-  'tx_dual': '双频 2.4GHz/900MHz 发射机',
+  'tx_2400': '2.4GHz 发射机/高频头',
+  'tx_900': '900MHz 发射机/高频头',
+  'tx_dual': '双频 2.4GHz/900MHz 发射机/高频头',
   'rx_2400': '2.4GHz 接收机',
   'rx_900': '900MHz 接收机',
   'rx_dual': '双频 2.4GHz/900MHz 接收机',
