@@ -48,15 +48,15 @@ store.options.flashMethod = urlParams.get('method');
 const friendsList = [
   {
     name: '田鼠本鼠',
-    avatar: '/public/tianshu.png', // 换成真实的图片路径
+    avatar: '/tianshu.png', // 换成真实的图片路径
     desc: '本站维护者/穿越机飞手\nB站/抖音/小红书',
     link: 'https://space.bilibili.com/395998010'
   },
   {
     name: '昊翔模型',
-    avatar: '/public/HXMX.png',
+    avatar: '/HXMX.png',
     desc: '资深爱好者/航模商家\nB站/抖音',
-    link: 'https://v.douyin.com/xxxxxx'
+    link: 'https://www.douyin.com/user/MS4wLjABAAAAuLitcVssvTiuq6bSH_5QNt6m4gKg8I9gTUIOvqfiOII?from_tab_name=main'
   }
 ];
 
