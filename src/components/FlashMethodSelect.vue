@@ -7,10 +7,10 @@ const props = defineProps({methods: Array})
 const flashMethods = [
   {value: 'download', title: '下载到本地'},
   {value: 'uart', title: '串口刷写（UART）'},
-  {value: 'betaflight', title: 'Betaflight 透传模式'},
-  {value: 'etx', title: 'EdgeTX 透传模式'},
+  {value: 'betaflight', title: '通过Betaflight端口刷写'},
+  {value: 'etx', title: '通过EdgeTX端口刷写'},
   {value: 'passthru', title: '透传模式'},
-  {value: 'wifi', title: 'WiFi'},
+  {value: 'wifi', title: '通过WiFi刷写'},
   {value: 'stlink', title: 'STLink'},
 ]
 
