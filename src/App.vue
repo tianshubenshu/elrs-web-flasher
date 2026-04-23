@@ -78,7 +78,7 @@ const friendsList = [
               </svg>
         </div>
 <div class="header-text d-flex flex-column justify-center">
-    <h1 
+    <div 
       style="
         font-size: 52px !important; 
         font-weight: 900; 
@@ -88,15 +88,15 @@ const friendsList = [
       "
     >
       ExpressLRS&trade;
-    </h1>
-    <h2 
+    </div>
+    <div
       style="
         font-size: 25px !important; 
         font-weight: 300; 
         letter-spacing: 12px !important; 
         opacity: 0.8;
         margin-left: 4px;
-      ">WEB FLASHER</h2>
+      ">WEB FLASHER</div>
   </div>
 </div>
 
