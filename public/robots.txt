@@ -1,2 +1,12 @@
+# 欢迎所有搜索引擎爬虫
 User-agent: *
+
+# 允许爬取所有内容（因为这是公开镜像站）
 Allow: /
+
+# 禁止爬取一些敏感或无意义的目录（如果有的话）
+Disallow: /config/
+Disallow: /temp/
+
+# 告诉爬虫你的站点地图在哪里
+Sitemap: https://elrs.gawrtianshu.top/sitemap.xml
