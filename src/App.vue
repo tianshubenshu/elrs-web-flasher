@@ -49,12 +49,14 @@ const friendsList = [
   {
     name: '田鼠本鼠',
     avatar: '/tianshu.png', // 换成真实的图片路径
+    altText: '田鼠本鼠头像',
     desc: '本站维护者/穿越机飞手\nB站/抖音/小红书',
     link: 'https://space.bilibili.com/395998010'
   },
   {
     name: '昊翔模型',
     avatar: '/HXMX.png',
+     altText: '昊翔模型头像',
     desc: '资深爱好者/航模商家\nB站/抖音',
     link: 'https://www.douyin.com/user/MS4wLjABAAAAuLitcVssvTiuq6bSH_5QNt6m4gKg8I9gTUIOvqfiOII?from_tab_name=main'
   }
