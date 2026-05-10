@@ -32,7 +32,7 @@ function close() {
 .pwa-toast {
   position: fixed;
   right: 0;
-  bottom: 0;
+  bottom: 90;
   margin: 16px;
   width: unset;
   z-index: 99999;
