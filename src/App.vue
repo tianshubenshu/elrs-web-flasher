@@ -65,13 +65,22 @@ const friendsList = [
 </script>
 
 <template>
-  <v-btn
+<v-btn
   prepend-icon="mdi-folder-download"
   color="primary"
   rounded="xl"
   elevation="10"
   href="https://fm.gawrtianshu.top/"
-  style="position: fixed; bottom: 30px; right: 30px; z-index: 9999; padding: 0 20px; min-width: 150px; height: 50px;"
+  style="
+    position: fixed; 
+    bottom: 115px; /* 这里是关键：抬高到115px */
+    right: 30px; 
+    z-index: 9999; 
+    padding: 0 20px; 
+    min-width: 150px; 
+    height: 50px;
+    transition: bottom 0.3s; /* 加个过渡，以后万一想做动态也方便 */
+  "
 >
   前往田鼠下载站
 </v-btn>
