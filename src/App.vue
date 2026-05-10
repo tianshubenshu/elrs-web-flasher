@@ -73,7 +73,7 @@ const friendsList = [
   href="https://fm.gawrtianshu.top/"
   style="
     position: fixed; 
-    bottom: 115px; /* 这里是关键：抬高到115px */
+    bottom: 95px; /* 这里是关键：抬高到115px */
     right: 30px; 
     z-index: 9999; 
     padding: 0 20px; 
