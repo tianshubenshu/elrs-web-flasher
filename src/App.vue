@@ -50,7 +50,7 @@ const friendsList = [
     name: '田鼠下载站',
     avatar: '/tianshu.png', // 换成真实的图片路径
     altText: '田鼠下载站',
-    desc: '点击前往下载站：遥控器固件，地面站等',
+    desc: '点击前往下载：遥控器固件，地面站等',
     link: 'https://fm.gwrtianshu.top/'
   },
     {
@@ -78,7 +78,7 @@ const friendsList = [
   rounded="xl"
   elevation="10"
   href="https://fm.gawrtianshu.top/"
-  style="position: fixed; bottom: 30px; right: 30px; z-index: 9999; padding: 0 20px;"
+  style="position: fixed; bottom: 30px; right: 30px; z-index: 9999; padding: 0 20px; min-width: 150px; height: 50px;"
 >
   前往田鼠下载站
 </v-btn>
