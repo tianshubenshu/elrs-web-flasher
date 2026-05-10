@@ -47,10 +47,10 @@ store.options.flashMethod = urlParams.get('method');
 
 const friendsList = [
   {
-    name: '田鼠下载站',
+    name: '田鼠本鼠',
     avatar: '/tianshu.png', // 换成真实的图片路径
-    altText: '田鼠下载站',
-    desc: '点击前往下载：遥控器固件，地面站等',
+    altText: '田鼠本鼠',
+    desc: '站点维护者/航模爱好者\nB站/抖音/小红书',
     link: 'https://fm.gwrtianshu.top/'
   },
   {
@@ -82,7 +82,7 @@ const friendsList = [
     transition: bottom 0.3s; /* 加个过渡，以后万一想做动态也方便 */
   "
 >
-  前往田鼠下载站
+  前往田鼠本鼠下载站
 </v-btn>
   
   <VApp>
