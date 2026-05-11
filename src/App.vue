@@ -51,7 +51,7 @@ const friendsList = [
     avatar: '/tianshu.png', // 换成真实的图片路径
     altText: '田鼠本鼠',
     desc: '站点维护者/航模爱好者\nB站/抖音/小红书',
-    link: 'https://fm.gwrtianshu.top/'
+    link: 'https://space.bilibili.com/395998010'
   },
   {
     name: '昊翔模型',
