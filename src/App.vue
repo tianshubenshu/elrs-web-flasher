@@ -70,7 +70,7 @@ const friendsList = [
   color="primary"
   rounded="xl"
   elevation="10"
-  href="https://fm.gawrtianshu.top/"
+  href="https://dl.gawrtianshu.top/"
   style="
     position: fixed; 
     bottom: 28px;
